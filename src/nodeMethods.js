@@ -2,10 +2,18 @@
     const fs = require('fs');
     const path = require("path");
 
+// --- NO SE PUEDE USAR EVITA ASINCRONIA --- //
+// const readFileContent = (pathToRead) => {
+//     const content = fs.readFileSync(pathToRead, 'UTF-8');
+//     return content;
+// };
+
 //Resuelve y normaliza la ruta dada
 const converterPath = (pathToConvert) => {
     let converterPathResult;
-    path.isAbsolute(pathToConvert) 
+    const pathAbsolute = path.isAbsolute(pathToConvert) 
+    console.log('SOY RUTA ABSOLUTA ? ', pathAbsolute);
+    pathAbsolute
         ? converterPathResult = pathToConvert 
         : converterPathResult = path.resolve(pathToConvert).normalize();
     return converterPathResult;
@@ -14,48 +22,67 @@ const converterPath = (pathToConvert) => {
 // Función para verifica si existe la ruta
 const validatePath = (path) => fs.existsSync(path);
 
-// función para saber si es un directorio o archivo si es directorio : true y si es archivo: false
-const isDir =  (pathToCheck) => new Promise((resolve) =>{ // sólo verifica si es directorio
-    fs.stat(pathToCheck, (err, stats) => {
-        if (err) throw err;
-        const isDirResult = stats.isDirectory()
-        console.log('soy directorio?', isDirResult);
-        resolve(isDirResult);
-    });
-});
 
-//Función para recorrer el contenido de un directorio
-const readDirectoryFiles = (checkContentDir) => {
-    const dirFiles = fs.readdirSync(checkContentDir);
-    console.log(dirFiles);
-    return dirFiles;
-}
-
-// Función para saber la extención de un archivo
-const extensionName = (filePaht) =>{
-    const extension = path.extname(filePaht); //obtener la extención del archivo
-    return extension;
+//Función recursiva para leer el contedido de un directorio
+const fileSearch = (arrayPaths, fileAbsolutePath) =>{
+    const isDirResult = fs.statSync(fileAbsolutePath).isDirectory();
+    if(isDirResult){
+        const dirFileRes = fs.readdirSync(fileAbsolutePath); //recorrer el contenido de un directorio
+        dirFileRes.forEach((file) => {
+            const dirAbsolutepath = path.join(fileAbsolutePath, file);
+            fileSearch(arrayPaths, dirAbsolutepath);
+        });
+    }else{
+        const fileExtensionRes = path.extname(fileAbsolutePath);//obtine .md
+        if(fileExtensionRes === '.md'){
+            arrayPaths.push(fileAbsolutePath);
+        }
+    }
+    return arrayPaths;
 }
 
 // funcion para revisar si es archivo md y leer su contenido
-const isFileMd = (filePath) => {
-    const fileExtensionResult = extensionName(filePath);
-    if(fileExtensionResult === '.md'){
-        return filePath;
-    }else{
-        const isFileMdError = 'Archivo no tiene extención .md';
-        return isFileMdError;
-    }
+// const isFileMd = (filePath) => {
+//     const fileExtensionResult = extensionName(filePath);
+//     if(fileExtensionResult === '.md'){
+//         return filePath;
+//     }else{
+//         const isFileMdError = ' ❗ Archivo no tiene extención .md';
+//         return isFileMdError;
+//     }
+// };
+
+// Sin Promesa:👇
+
+const readFilesContent = (pathToRead) => {
+    pathToRead.forEach((element) => {
+        fs.readFile(element, 'utf8', function(err, data) {
+        if (err){
+            const errorMessage = ' ❌ No se puede leer el conbtenido del archivo';
+            console.log(errorMessage);
+        }else{
+            console.log(data);
+            // resolve (data);
+        }
+        });
+    })
 };
 
-// función para leer el contenido de mi archivo
-const readFile = (pathToRead) => {
-    fs.readFile(pathToRead, 'utf8', function(err, data) {
-    if (err) throw err;
-    console.log(data);
-    return data;
-    });
-}
+// Con Promesa:👇
+
+// const readFilesContent = (pathToRead) => new Promise ((resolve) => {
+//     pathToRead.forEach((element) => {
+//         fs.readFile(element, 'utf8', function(err, data) {
+//         if (err){
+//             const errorMessage = ' No se puede leer el conbtenido del archivo';
+//             console.log(errorMessage);
+//         }else{
+//             // console.log(data);
+//             resolve (data);
+//         }
+//         });
+//     })
+// });
 
 
 
@@ -63,9 +90,7 @@ const readFile = (pathToRead) => {
 module.exports = {
     converterPath,
     validatePath,
-    isDir,
-    readDirectoryFiles,
-    extensionName,
-    isFileMd,
-    readFile,
+    fileSearch,
+    // isFileMd,
+    readFilesContent,
 }
