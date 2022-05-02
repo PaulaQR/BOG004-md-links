@@ -40,19 +40,21 @@ if(resultValidatePath) {
 }
 
 //sin Promesa:👇
-console.log('******** 📚 ReadFiles desde md-links ********');
-readFilesContent(arrayFilePathMd);
+// console.log('******** 📚  ReadFiles desde md-links ********');
+// readFilesContent(arrayFilePathMd);
 
 //Con promesa:👇
-// const readFiles = readFilesContent(arrayFilePathMd)
-//     .then((filesMdResp)=>{
-//         console.log('ReadFiles desde md-links', filesMdResp);
-//         resolve(readFiles)
-//     })
-//     .catch((error)=>{
-//         const errorMessage = '❌ Error'
-//         reject(error, errorMessage)
-//     });
+console.log('******** 📚  ReadFiles desde md-links ********');
+// let readLinks = readFilesContent(arrayFilePathMd)
+// console.log(readLinks, 'holaaaa soy readLinks desde Md-Links');
+readFilesContent(arrayFilePathMd)
+    .then((objectLinks)=>{
+        console.log('📚  ReadFiles desde md-links', objectLinks);
+    })
+    .catch((error)=>{
+        const errorMessage = '❌ Error'
+        reject(error, errorMessage)
+    });
 
 })
 
