@@ -1,59 +1,75 @@
 // Importamos Módulos de node
-const{
-    converterPath,
-    validatePath,
-    fileSearch,
-    readFileContent,
-} = require('./nodeMethods.js');
+const {
+  converterPath,
+  validatePath,
+  fileSearch,
+  readFileContent,
+} = require("./nodeMethods.js");
 
 //--------- node methods filesystem - path ---------
 const chalk = require("chalk");
-const path = require("path");
-const { read, link } = require('fs');
+// const path = require("path");
 
 //--------- Función mdLinks ---------
-const mdLinks = (args) => new Promise((resolve, reject) => {
-
-//--------- captura de la ruta a partir del array de args ---------
+const mdLinks = (args) =>
+  new Promise((resolve, reject) => {
+    //--------- captura de la ruta a partir del array de args ---------
     const terminalPathCacht = args[2];
 
-//--------- convertir ruta capturada en absoluta ---------
+    //--------- convertir ruta capturada en absoluta ---------
     const pathAbsolute = converterPath(terminalPathCacht);
 
-//--------- Guardo el rersultado e invoco la función pasando como argumento pathAbsolute ---------
-    const resultValidatePath  = validatePath(pathAbsolute);
+    //--------- Guardo el rersultado e invoco la función pasando como argumento pathAbsolute ---------
+    const resultValidatePath = validatePath(pathAbsolute);
 
+    //--------- Condicional que valida la ruta y la recursividad invocando la función fileSearch desde nodeMethods ---------
+    let arrayFilePathMd = [];
+    if (resultValidatePath) {
+      const filesMd = fileSearch(arrayFilePathMd, pathAbsolute)// invocamos la función que nos da la recursividad
+      if (filesMd.length === 0){
+        console.log(chalk.redBright(` 
+        ╔════════════════════╗
 
-//--------- Condicional que valida la ruta y la recursividad invocando la función fileSearch desde nodeMethods ---------
- let arrayFilePathMd = [];
- if(resultValidatePath) {
-    fileSearch(arrayFilePathMd, pathAbsolute);// invocamos la función que nos da la recursividad
-    // console.log('⋆⌘⋆  ────────── Array de archivos .md ⋆⌘⋆  ────────── ' , filesMdResp);
-} else {
-    const invalidPath = '👎 La ruta ingresada no es válida'
-    console.log(chalk.redBright.bold(invalidPath));
-}
+    El directorio No contiene Archivos 🧐
+        
+        ╚════════════════════╝`
+      ))
+      }
+    } else {
+        const invalidPath = ` 
+        ╔════════════════════╗
 
-//--------- Con promesa:👇 ---------
-// console.log(chalk.cyan.bold('─────❀◦❀◦❀───── ReadFiles desde md-links ─────❀◦❀◦❀─────'));
-readFileContent(arrayFilePathMd)
-    .then((objectLinks)=>{
-        console.group(chalk.blueBright.italic('━━━━━━ ✧ ❃ ✧ ━━━━━━ Links obtenidos: ━━━━━━ ✧ ❃ ✧ ━━━━━━') , objectLinks);
-    })
-    .catch((error)=>{
-        const errorMessage = 'Error'
-        reject(error, errorMessage)
-    });
-// readFileContent(arrayFilePathMd)
-//     .then((objectLinks)=>{
-//         console.group(objectLinks);
-//     })
-//     .catch((error)=>{
-//         const errorMessage = '❌ Error'
-//         reject(error, errorMessage)
-//     });
-})
+    La ruta ingresada no es válida 😕
+        
+        ╚════════════════════╝
+        
+        `
+        console.log(chalk.redBright.bold(invalidPath));
+    }
 
+    //--------- Se invoca la Función de ReadFileContent para que se resuelva la promesa:👇 ---------
+    readFileContent(arrayFilePathMd)
+      .then((objectLinks) => {
+        if (objectLinks.length === 0) {
+          console.log(chalk.redBright(` 
+          ╔════════════════════╗
 
+        El Archivo no contiene Links 🧐 
+          
+          ╚════════════════════╝`
+          ))
+        } else {
+          console.log(
+            chalk.blueBright.bold(` ──────────✿◦• Links Encontrados ✔️  ✿◦•──────────   `
+            )
+          );
+          resolve(objectLinks);
+        }
+      })
+      .catch((error) => {
+        const errorMessage = "Error";
+        reject(error, errorMessage);
+      });
+  });
 
 module.exports = mdLinks;

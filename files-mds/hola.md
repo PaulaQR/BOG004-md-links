@@ -1,1 +1,0 @@
-[El Colombiano](https://www.elcolombiano.com/)
