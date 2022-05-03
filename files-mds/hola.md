@@ -1,1 +1,1 @@
-[BeMusic](https://lina-1985-cloud.github.io/BOG004-social-network/src/index.html)
+[El Colombiano](https://www.elcolombiano.com/)
