@@ -14,8 +14,8 @@
 
 ***
 ## 1. Diagrama de Flujo
-![Diagrama de flujo](Diagramas/Diagrama1.png)
-![Diagrama de flujo](Diagramas/Diagrama2.png)
+![Diagrama de flujo API](diagramas/Diagrama1.png)
+![Diagrama de flujo CLI](diagramas/Diagrama2.png)
 ## 2. Resumen del proyecto
 mdlink es una librería que nos permite recorrer y leer directorios y archivos dados por el usuario para extraer los links presentes en los archivos Markdown (.md) y posteriormente analizarlos.
 
