@@ -1,5 +1,5 @@
 {
-  "name": "md-links",
+  "name": "paulaqr-md-links",
   "version": "0.1.0",
   "type": "commonjs",
   "engines": {
@@ -11,12 +11,30 @@
   "scripts": {
     "test": "jest --coverage --verbose"
   },
-  "bin": {
-    "MDLINKS": "./src/cli.js"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PaulaQR/BOG004-md-links.git"
   },
+  "bin": {
+    "mdlink": "src/cli.js"
+  },
+  "main": "cli.js",
   "dependencies": {
-    "chalk": "^5.0.1",
-    "git": "^0.1.5",
+    "cli": "^1.0.1",
     "node-fetch": "^2.6.7"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/PaulaQR/BOG004-md-links/issues"
+  },
+  "homepage": "https://github.com/PaulaQR/BOG004-md-links#readme",
+  "directories": {
+    "test": "test"
+  },
+  "keywords": [
+    "cli",
+    "md-links"
+  ],
+  "author": "paulaqr",
+  "license": "ISC",
+  "description": ""
 }
