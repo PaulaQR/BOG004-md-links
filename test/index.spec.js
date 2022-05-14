@@ -11,7 +11,7 @@ describe('readRoute', () => {
     // eslint-disable-next-line no-undef
     it('convierte una ruta relativa a absoluta', () => {
         let pathR = './files/facebook.md';
-        let result = 'C:\\Users\\paulaquintero\\Desktop\\BOG004-md-links\\files\\facebook.md';
+        let result = '/Users/paulaquintero/Desktop/BOG004-md-links/files/facebook.md';
         expect(readRoute(pathR)).toBe(result);
     });
 });
@@ -24,25 +24,12 @@ describe('fileOrDirectory', () => {
         expect(fileOrDirectory('./carpetaParaPruebas').toBe('true'));
     }); */
 });
-describe('readDirectory', () => {
-    it('es una función', () => {
-        expect(typeof readDirectory).toBe('function');
-    });
-    it('deberia retornar un array con el contenido del directorio', () => {
-        expect(getMdFiles('./files').length).toBe(4);
-    });
-});
 
 describe('readFiles', () => {
     it('es una función', () => {
         expect(typeof readFiles).toBe('function');
     });
 
-    test('debería leer un archivo', () => {
-        return readFiles('./files').then(data => {
-            expect(data.json).not.toBe(0);
-        });
-    });
     test('debería rechazar la promesa', () => {
         return expect(readFiles('./package.json')).rejects.toMatch('No es archivo de extensión .md');
     });
@@ -58,23 +45,3 @@ describe('extMd', () => {
     });
 });
 
-describe('getMdFiles', () => {
-    it('es una función', () => {
-        expect(typeof getMdFiles).toBe('function');
-    });
-    it('deberia retornar un array de archivos .md', () => {
-        expect(getMdFiles('./README.md').length).toBe(1);
-    });
-});
-
-describe('getLinks', () => {
-    it('es una función', () => {
-        expect(typeof getLinks).toBe('function');
-    });
-    it('debe retornar array de objetos con los links encontrados', () => {
-        return getLinks('./carpetaParaPruebas/archivomd.md').then(data => {
-            expect(data.length).toBe(2);
-
-        });
-    });
-});

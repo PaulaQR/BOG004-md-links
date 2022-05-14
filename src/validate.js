@@ -29,21 +29,22 @@ const stats = (path) => {
 		const array = res.map((link => link.json));
 		const arrUnique = [...new Set(res.map((link) => link.href))];
 		return ({
-			Total: array.lenght,
-			Unique: arrUnique.lenght
+			Total: array.length,
+			Unique: arrUnique.length
 		});
 	});
 };
 
 const twOptions = (path) => {
-	return validate(path).then(res =>{
+	return validate(path)
+	.then(res =>{
 		const brokenLinks = res.filter((link) => link.ok !== 'OK');
 		const array = res.map((link => link.json));
 		const arrUnique = [...new Set(res.map((link) => link.href))];
 		return ({
-			Total: array.lenght,
-			Unique: arrUnique.lenght,
-			Broken: brokenLinks.lenght
+			Total: array.length,
+			Unique: arrUnique.length,
+			Broken: brokenLinks.length
 		});
 	});
 };
