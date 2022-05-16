@@ -10,15 +10,18 @@ const mdLinks = (path, options) => {
 				reject(new Error('La ruta ingresada es invalida'));
 			} else {
 				if (options.validate === true) {
-					validate(absoluteRoute).then(res => resolve(res));
-				} else {
-					md.getLinks(absoluteRoute). then(res => resolve(res));
+					validate(absoluteRoute).then(res => {
+						return resolve(res)});
+					} else {
+						md.getLinks(absoluteRoute).then(res => {
+						console.log('RES', res)
+						resolve(res)
+					});
 				}
 			}
 	});
 	return promise; 
 };
-
 module.exports = {
 	mdLinks,
 };

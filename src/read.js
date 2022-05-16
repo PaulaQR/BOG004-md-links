@@ -21,7 +21,7 @@ const fileOrDirectory = (route) => {
 	console.log("Route: ", route)
 	fs.statSync(route, (error, stats) => {
 		if (error) {
-			// eslint-disable-next-line no-console
+
 			console.log("Error ", error);
 		}
 		else {
